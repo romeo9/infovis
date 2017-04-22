@@ -6,7 +6,14 @@
 	<title>hw1</title>
 </head>
 <body>
-	<script type="text/javascript" src = "planeMove.js"></script>
-	<button class="btn" onclick="reStart()">Restart</button>
+	<div class="container">
+		<div class="text">Velocita'(in px): </div><input class="inputtext" id="inputVel" type="text" name="vel" placeholder="Scrivi qui.."> <p class="default">Valore di default: 10px</p>
+		<input class = "btn" type="submit" value="Submit" onclick="setSpeed()">
+		<button class="btn" onclick="reStart()">Restart</button>
+	</div>
+	<p>Per far muovere l'aeroplanino premere le frecce.</p> <p id="error"></p>
+	<script type="text/javascript" src="planeMove.js"></script>
+	
+
 </body>
 </html>

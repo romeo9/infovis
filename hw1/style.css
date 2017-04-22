@@ -1,5 +1,6 @@
 body {
 	background-color: lightblue;
+	background-image: url("sky.svg");
 }
 
 .btn {
@@ -17,13 +18,76 @@ body {
 	  box-shadow: 0px 1px 3px #666666;
 	  font-family: Arial;
 	  color: #ffffff;
-	  font-size: 21px;
-	  padding: 10px 20px 10px 20px;
+	  font-size: 18px;
+	  padding: 8px 18px 8px 18px;
 	  border: solid #ffffff 3px;
 	  text-decoration: none;
+
 }
 
 .btn:hover {
-  background: #3cb0fd;
+  background: #40a6eb;
   text-decoration: none;
+}
+
+
+.container {
+	display: inline;
+	font-family: Arial;
+	font: 95% Arial, Helvetica, sans-serif;
+	color: #ffffff;
+}
+.text {
+	padding: 8px 18px 8px 18px;
+	display: inline;
+}
+
+
+.inputtext {
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    outline: none;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    border-radius: 26px;
+    width: 200px;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    color: #555;
+    font: 95% Arial, Helvetica, sans-serif;
+}
+
+.inputtext:focus {
+    box-shadow: 0 0 5px #256dad;
+    border: 1px solid #256dad;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #dfdfdf;
+}
+
+
+p {
+
+	font-family: Arial;
+	font: 95% Arial, Helvetica, sans-serif;
+	color: #ffffff;
+}
+
+#error {
+	font-family: Arial;
+	font: 100% Arial, Helvetica, sans-serif;
+	color: red;
+}
+
+.default {
+	display: inline;
+	font-family: Arial;
+	font: 70% Arial, Helvetica, sans-serif;
+	color: grey;
+
 }
