@@ -1,4 +1,4 @@
-var speed = 10 //velocità dell'aeroplanino (in px)
+var speed = 20 //velocità dell'aeroplanino (in px)
 
 var height = (document.body.scrollHeight * 80)/100;  
 var width = document.body.clientWidth;
@@ -11,23 +11,27 @@ var x_axis = svgWidth/2.
 var y_axis = svgHeight/2.
 
 //dimensioni immagine che rappresenta l'oggetto
-var imageWidth = 100
-var imageHeight = 100
+var imageWidth = 200
+var imageHeight = 200
 
 var alpha = 0 //angolo di rotazione dell'aeroplanino
+
+var scale = 2
 
 //elemento svg
 var svgContainer = d3.select("body").append("svg")
 	                                    .attr("width", svgWidth)
 	                                    .attr("height", svgHeight);
 
-var g = svgContainer.append("g");
 
-var img = g.append("svg:image")
-    .attr("xlink:href", "plane.png")
-    .attr("width", imageWidth)
-    .attr("height", imageHeight)
-    .attr("transform", "translate("+x_axis+","+y_axis+") rotate("+alpha+")")
+var g = drawPlane(svgContainer);
+
+var planeHeight = g.node().getBBox().height/2.			
+var planeWidth = g.node().getBBox().width/2.
+
+g.transition().duration(1000)
+    .attr("transform", "translate("+x_axis+","+y_axis+") rotate("+alpha+','+planeWidth+','+planeHeight+") scale("+scale+")")
+
 
 //event handler. Quando viene premuto il tasto viene chiamata la funzione.
 // A seconda del codice del tasto vengono chiamate altre funzioni
@@ -44,6 +48,7 @@ document.onkeydown = function(e){
 
 /*
 Per tutti i movimenti, quando si preme un tasto, prima l'aeroplano ruota, poi si muove
+moveDown: va giu
 */
 function moveDown(){
 	if(alpha == 90){ 				//se l'aeroplano è già ruotato
@@ -58,12 +63,13 @@ function moveDown(){
 		alpha = 90					//modifica l'angolo, ma non la posizione
 	}
 
-	d3.selectAll("image")
-		.attr("transform", "translate("+x_axis+","+y_axis+") rotate("+alpha+")")	//aggiorna
+	d3.selectAll("svg").selectAll("g")
+		.attr("transform", "translate("+x_axis+","+y_axis+") rotate("+alpha+','+planeWidth+','+planeHeight+") scale("+scale+")")	//aggiorna
 
 }
 
-function moveUp(e){	
+//moveUp: va su
+function moveUp(){	
 	if(alpha == -90){
 		if (y_axis <= 0){
 			y_axis = svgHeight
@@ -75,11 +81,12 @@ function moveUp(e){
 		alpha = -90
 	}
 
-	d3.selectAll("image")
-		.attr("transform", "translate("+x_axis+","+y_axis+") rotate("+alpha+")")	
+	d3.selectAll("svg").selectAll("g")
+		.attr("transform", "translate("+x_axis+","+y_axis+") rotate("+alpha+','+planeWidth+','+planeHeight+") scale("+scale+")")	
 }
 
-function moveRight(e){
+//moveRight: va a destra
+function moveRight(){
 	if(alpha==0){
 		if (x_axis >= svgWidth) {
 			x_axis = -imageWidth/2.
@@ -89,11 +96,12 @@ function moveRight(e){
 	}else{
 		alpha = 0
 	}
-	d3.selectAll("image")
-		.attr("transform", "translate("+x_axis+","+y_axis+") rotate("+alpha+")")	
+	d3.selectAll("svg").selectAll("g")
+		.attr("transform", "translate("+x_axis+","+y_axis+") rotate("+alpha+','+planeWidth+','+planeHeight+") scale("+scale+")")	
 }
 
-function moveLeft(e){
+//moveLeft: va a sinistra
+function moveLeft(){
 	if(alpha==180){
 		if(x_axis <= 0){
 			x_axis = svgWidth
@@ -104,10 +112,11 @@ function moveLeft(e){
 		alpha = 180
 	}
 	
-		d3.selectAll("image")
-			.attr("transform", "translate("+x_axis+","+y_axis+") rotate("+alpha+")")	
+		d3.selectAll("svg").selectAll("g")
+			.attr("transform", "translate("+x_axis+","+y_axis+") rotate("+alpha+','+planeWidth+','+planeHeight+") scale("+scale+")")	
 }
 
+//reStart: fa ripartire l'aeroplanino da capo con la velocità di default
 function reStart(){
 	x_axis = svgWidth/2.
 	y_axis = svgHeight/2.
@@ -116,18 +125,17 @@ function reStart(){
 
 	speed = 10
 
-	d3.selectAll("image")
-		.attr("transform", "translate("+x_axis+","+y_axis+") rotate("+alpha+")")
+	d3.selectAll("svg").selectAll("g")
+		.attr("transform", "translate("+x_axis+","+y_axis+") rotate("+alpha+','+planeWidth+','+planeHeight+") scale("+scale+")")
 
 	document.getElementById("error").innerHTML = " ";
 	document.getElementById("inputVel").value = ""
 
 }
 
+//setSpeed: modifica la velocità prendendo i dati da input
 function setSpeed(){
 	input = parseInt(document.getElementById("inputVel").value)
-
-	console.log(typeof(input) + "  digitato: " + input)
 	
 	if(isNaN(input)){
 		document.getElementById("error").innerHTML = "ERRORE! Inserire un numero!";
@@ -137,6 +145,44 @@ function setSpeed(){
 		document.getElementById("error").innerHTML = " ";
 	}
 
+}
+
+function drawPlane(svg){
+	var g = svg.append('g')
+				.attr("id", "plane");
+
+	g.append('ellipse')
+		.attr("cx", 35)
+        .attr("cy", 35)
+        .attr("rx", 15)
+        .attr("ry", 4);
+    g.append("rect")
+    	.attr("x", 5)
+    	.attr("y", 31)
+    	.attr("width",25)
+    	.attr("height",8);
+    g.append("path")
+    	.attr("d", "M 35 35 L 20 15 L 18 15 L 28 35")
+    	.attr("stroke", "black")
+    	.attr("stoke-width", 2)
+    	.attr("fill", "black");
+    g.append("path")
+    	.attr("d", "M 35 35 L 20 55 L 18 55 L 28 35")
+    	.attr("stroke", "black")
+    	.attr("stoke-width", 2)
+    	.attr("fill", "black");
+    g.append("path")
+    	.attr("d", "M 10 35 L 2 25 H 1 L 5 35")
+    	.attr("stroke", "black")
+    	.attr("stoke-width", 2)
+    	.attr("fill", "black");
+    g.append("path")
+    	.attr("d", "M 10 35 L 2 45 H 1 L 5 35")
+    	.attr("stroke", "black")
+    	.attr("stoke-width", 2)
+    	.attr("fill", "black");
+
+    return g;
 }
 
 

@@ -66,7 +66,7 @@ body {
     border: 1px solid #256dad;
 }
 
-::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+::-webkit-input-placeholder { 
   color: #dfdfdf;
 }
 
@@ -87,7 +87,7 @@ p {
 .default {
 	display: inline;
 	font-family: Arial;
-	font: 70% Arial, Helvetica, sans-serif;
+	font: 90% Arial, Helvetica, sans-serif;
 	color: grey;
 
 }
