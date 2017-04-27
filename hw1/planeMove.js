@@ -58,13 +58,17 @@ function moveDown(){
 		else{	
 			y_axis += speed			//se c'è ancora spazio, continua a muoversi
 		}
+		trsOperation(false);
 
 	}else{							//se non è già ruotato 
 		alpha = 90					//modifica l'angolo, ma non la posizione
+		
+		trsOperation(true)
+		//d3.selectAll("svg").selectAll("g").transition()
+		//.attr("transform", "translate("+x_axis+","+y_axis+") rotate("+alpha+','+planeWidth+','+planeHeight+") scale("+scale+")")
 	}
 
-	d3.selectAll("svg").selectAll("g")
-		.attr("transform", "translate("+x_axis+","+y_axis+") rotate("+alpha+','+planeWidth+','+planeHeight+") scale("+scale+")")	//aggiorna
+		//aggiorna
 
 }
 
@@ -77,12 +81,13 @@ function moveUp(){
 		else{
 			y_axis -= speed
 		}
+		trsOperation(false)
 	}else{
 		alpha = -90
+		trsOperation(true)
 	}
 
-	d3.selectAll("svg").selectAll("g")
-		.attr("transform", "translate("+x_axis+","+y_axis+") rotate("+alpha+','+planeWidth+','+planeHeight+") scale("+scale+")")	
+		
 }
 
 //moveRight: va a destra
@@ -92,12 +97,15 @@ function moveRight(){
 			x_axis = -imageWidth/2.
 		}else{
 			x_axis += speed
+
 		}
+		trsOperation(false)
 	}else{
 		alpha = 0
+		trsOperation(true)
+		
 	}
-	d3.selectAll("svg").selectAll("g")
-		.attr("transform", "translate("+x_axis+","+y_axis+") rotate("+alpha+','+planeWidth+','+planeHeight+") scale("+scale+")")	
+		
 }
 
 //moveLeft: va a sinistra
@@ -108,13 +116,16 @@ function moveLeft(){
 		}else{
 			x_axis -= speed
 		}
+		trsOperation(false);
+			
+
 	}else{
 		alpha = 180
+		trsOperation(true)
+}
 	}
 	
-		d3.selectAll("svg").selectAll("g")
-			.attr("transform", "translate("+x_axis+","+y_axis+") rotate("+alpha+','+planeWidth+','+planeHeight+") scale("+scale+")")	
-}
+		
 
 //reStart: fa ripartire l'aeroplanino da capo con la velocità di default
 function reStart(){
@@ -125,8 +136,8 @@ function reStart(){
 
 	speed = 10
 
-	d3.selectAll("svg").selectAll("g")
-		.attr("transform", "translate("+x_axis+","+y_axis+") rotate("+alpha+','+planeWidth+','+planeHeight+") scale("+scale+")")
+	trsOperation(true)
+	
 
 	document.getElementById("error").innerHTML = " ";
 	document.getElementById("inputVel").value = ""
@@ -185,4 +196,18 @@ function drawPlane(svg){
     return g;
 }
 
+/*
+t = translate
+r = rotate
+s = scale
+*/
+function trsOperation(transition){
+	if(transition){
+		d3.selectAll("svg").selectAll("g").transition()
+			.attr("transform", "translate("+x_axis+","+y_axis+") rotate("+alpha+','+planeWidth+','+planeHeight+") scale("+scale+")")
+	}else{
+		d3.selectAll("svg").selectAll("g")
+			.attr("transform", "translate("+x_axis+","+y_axis+") rotate("+alpha+','+planeWidth+','+planeHeight+") scale("+scale+")")
+	}
+}
 
